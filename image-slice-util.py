@@ -1,7 +1,7 @@
 import argparse
 from PIL import Image
 
-def create_slices(image_path, output_folder, slice_width, slice_height, num_slices):
+def create_slices(image_path, output_folder, group_name, slice_width, slice_height, num_slices):
     original_image = Image.open(image_path)
 
     original_width, original_height = original_image.size
@@ -21,10 +21,12 @@ def create_slices(image_path, output_folder, slice_width, slice_height, num_slic
             start_y = y * slice_height
 
             slice_image = original_image.crop((start_x, start_y, start_x + slice_width, start_y + slice_height))
-            print(f"About to save slice: {slice_count+1}of{num_slices}")
 
-            slice_image.save(f"{output_folder}/slice_{slice_count}.png")
-            print(f"Slice {slice_count+1}/{num_slices} saved successfully.")
+            slice_name = f"{output_folder}/{group_name}_{slice_count+1}.png"
+
+            slice_image.save(slice_name)
+
+            print(f"Slice {slice_name} saved successfully.")
 
             slice_count += 1
 
@@ -36,6 +38,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Create slices from an image.")
     parser.add_argument("image", help="Path to the original image file")
     parser.add_argument("output_folder", help="Destination folder to save the slices")
+    parser.add_argument("group_name", help="A name for the group to save the slices")
     args = parser.parse_args()
 
     slice_width = 88
@@ -43,4 +46,4 @@ if __name__ == "__main__":
 
     num_slices = 15
 
-    create_slices(args.image, args.output_folder, slice_width, slice_height, num_slices)
+    create_slices(args.image, args.output_folder, args.group_name, slice_width, slice_height, num_slices)
