@@ -9,22 +9,19 @@ export interface Deck {
 }
 
 export interface Card {
-	suit: Suits,
+	suit: string,
 	value: string
 }
 
-export function getFullDeck() {
-	var cards = [];
-	var cardIndex = 0;
-	for (var s = 0; s <=4; s++) {
-		for (var i = 0; i < 14; i++) {
-			cards[cardIndex++] = {
-				suit: Suits[s],
-				value: i
-			}
+export function getFullDeck(): Card[] {
+  	const values: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+	const deck: Card[] = [];
+	for (var s = 0; s <= 4; s++) {
+		for (const value of values) {
+			deck.push({ suit: Suits[s], value });
 		}
 	}
-	return cards;
+	return deck;
 }
 
 export function shuffleArray<T>(array: T[]): T[] {
@@ -35,9 +32,6 @@ export function shuffleArray<T>(array: T[]): T[] {
   }
   return shuffledArray;
 }
-
-
-
 
 const Deck: React.FC<ContainerProps> = ({ cards, deckType }) => {
 	return (
