@@ -15,7 +15,7 @@ export interface Player {
   Deck: Deck
 }
 
-const [ players, setPlayers ] = useState<Player[]> ([])
+// const [ players, setPlayers ] = useState<Player[]> ([])
 
 const Tab1: React.FC = () => {
   return (
