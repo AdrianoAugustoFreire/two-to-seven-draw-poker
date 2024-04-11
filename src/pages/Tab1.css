@@ -5,3 +5,7 @@ ion-grid {
 ion-row {
 	min-height: 146px;
 }
+
+/* ion-row.chooser {
+	min-height: 73px;
+} */
