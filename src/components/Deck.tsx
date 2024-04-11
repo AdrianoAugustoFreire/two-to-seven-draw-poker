@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { IonCol, IonGrid, IonRow, IonContent, IonItem } from '@ionic/react';
+
 import DeckTypes from './DeckTypes';
 import PlayingCard from './PlayingCard';
 import Suits from './Suits';
@@ -9,7 +10,7 @@ export interface Deck {
 }
 
 export interface Card {
-	suit: string,
+	suit: number,
 	value: string
 }
 
@@ -18,7 +19,7 @@ export function getFullDeck(): Card[] {
 	const deck: Card[] = [];
 	for (var s = 0; s <= 4; s++) {
 		for (const value of values) {
-			deck.push({ suit: Suits[s], value });
+			deck.push({ suit: s, value });
 		}
 	}
 	return deck;
@@ -33,13 +34,30 @@ export function shuffleArray<T>(array: T[]): T[] {
   return shuffledArray;
 }
 
-const Deck: React.FC<ContainerProps> = ({ cards, deckType }) => {
-	return (
+export function fullDeck() {
+	<IonItem>
+		<IonGrid fixed={true}>
+			<IonRow>
+				{
+					getFullDeck().map( card =>
+						<IonCol><PlayingCard suit={card.suit} value={card.value} open={true}></PlayingCard></IonCol>
+				)}
+			</IonRow>
+		</IonGrid>
+	</IonItem>
+}
 
-		<div className="container">
-			<img width={88} height={140} src='assets/imgs/deck.png'></img>
-		</div>
-	);
-};
+export function shuffledDeck() {
+	<IonItem>
+		<IonGrid fixed={true}>
+			<IonRow>
+				{
+					shuffleArray(getFullDeck()).map( card =>
+						<IonCol><PlayingCard suit={card.suit} value={card.value} open={true}></PlayingCard></IonCol>
+				)}
+			</IonRow>
+		</IonGrid>
+	</IonItem>
+}
 
 export default Deck;
