@@ -1,10 +1,19 @@
 ion-grid {
-	min-height: 146px;
+	/* min-height: 146px; */
 }
 
 ion-row {
+}
+
+.cards {
 	min-height: 146px;
 }
+
+.deck {
+	min-height: 73;
+}
+
+
 
 /* ion-row.chooser {
 	min-height: 73px;

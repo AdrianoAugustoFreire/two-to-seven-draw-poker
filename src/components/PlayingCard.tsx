@@ -5,18 +5,17 @@ interface ContainerProps {
 	suit: Suits;
 	value: string;
 	open: boolean;
+	width: number;
+	height: number;
 }
 
-const PlayingCard: React.FC<ContainerProps> = ({ suit, value, open }) => {
-	var imageName = 'assets/imgs/card-back-blue.png'
+const PlayingCard: React.FC<ContainerProps> = ({ suit, value, open, width, height}) => {
+	var imageName = 'assets/imgs/card-back-blue.png';
 	if (open) {
 		imageName = 'assets/imgs/' + suit + '-' + value + '.png'
 	}
-	return (
-		<div className="container">
-			<img width={88} height={124} src={imageName}></img>
-		</div>
-	);
+
+	return (<img width={width} height={height} src={imageName}></img>);
 };
 
 export default PlayingCard;
