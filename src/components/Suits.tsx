@@ -5,4 +5,6 @@ export enum Suits {
 	spades
 }
 
+export const SuitNames = [ 'Clubs', 'Diamonds', 'Hearts', 'Spades'];
+
 export default Suits;
