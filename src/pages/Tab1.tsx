@@ -1,17 +1,22 @@
 import { IonContent, IonHeader, IonPage, IonRange, IonTitle, IonToolbar } from '@ionic/react';
 import { IonCol, IonGrid, IonRow } from '@ionic/react';
-import { IonList, IonItem } from '@ionic/react';
 
 import PlayingCard from '../components/PlayingCard';
 import Suits from '../components/Suits';
 
 import './Tab1.css';
 import { useState } from 'react';
-import Deck, { fullDeck } from '../components/Deck';
-
-// const [ players, setPlayers ] = useState<Player[]> ([])
+import Deck from '../components/Deck';
 
 const Tab1: React.FC = () => {
+
+  const [plqyerCount, setPlayerCount] = useState<number>(3)
+
+  function handlePlayerCountChange(event: CustomEvent) {
+    const newValue = event.detail.value as number;
+    setPlayerCount(newValue);
+  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -25,12 +30,20 @@ const Tab1: React.FC = () => {
             <IonTitle size="large">Odds Calculator</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonItem>
-          <IonRange min={1} max={7} labelPlacement='end' label='Number of Players'>
-            {/* onIonChange={({ detail }) => console.log('ionChange emitted value: ' + detail.value)} */}
-          </IonRange>
-        </IonItem>
         <IonGrid fixed={true}>
+          <IonRow>
+            <IonCol size='8'>
+              <IonRange
+                min={1}
+                max={7}
+                step={1}
+                snaps={true}
+                value={plqyerCount}
+                onIonChange={handlePlayerCountChange}>
+             </IonRange>
+            </IonCol>
+            <IonCol>Players {plqyerCount}</IonCol>
+          </IonRow>
           <IonRow className='cards'>
             <IonCol><PlayingCard suit={Suits.spades} value={'2'} open={true} width={88} height={124}></PlayingCard></IonCol>
             <IonCol><PlayingCard suit={Suits.clubs} value={'3'} open={true} width={88} height={124}></PlayingCard></IonCol>
