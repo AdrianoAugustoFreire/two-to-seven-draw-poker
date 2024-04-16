@@ -2,6 +2,8 @@ import { IonCol, IonGrid, IonRow, IonItem } from '@ionic/react';
 
 import DeckTypes from './DeckTypes';
 import PlayingCard from './PlayingCard';
+import { useState } from 'react';
+import Card from './Card';
 
 interface ContainerProps {
 	display: string;
@@ -11,12 +13,8 @@ export interface Deck {
 	deckType: DeckTypes;
 }
 
-export interface Card {
-	suit: number,
-	value: string
-}
-
 const Deck: React.FC<ContainerProps> = ({ display }) => {
+
 	if (display === 'full') {
 		return (<>{fullDeck()}</>)
 	} else {
@@ -49,6 +47,8 @@ export function getCardsOfFullDeck(): Card[] {
 	return deck;
 }
 
+
+
 export function shuffleArray<T>(array: T[]): T[] {
   const shuffledArray = [...array];
   for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -59,32 +59,39 @@ export function shuffleArray<T>(array: T[]): T[] {
 }
 
 function renderDeck(cardsToRender: Card[]): React.ReactNode {
+
+	const [selected, setSelected] = useState<boolean>(false);
+
+	const handleCardClick = () => {
+		setSelected(!selected);
+	};
+
 	return  <>
 		<IonRow className='deck'>
 			{cardsToRender.slice(0, 13).map( card =>
 				<IonCol>
-					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62}></PlayingCard>
+					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} onClick={handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
 		</IonRow>
 		<IonRow className='deck'>
 			{cardsToRender.slice(13, 26).map(card =>
 				<IonCol>
-					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62}></PlayingCard>
+					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} onClick={handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
 		</IonRow>
 		<IonRow className='deck'>
 			{cardsToRender.slice(26, 39).map(card =>
 				<IonCol>
-					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62}></PlayingCard>
+					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} onClick={handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
 		</IonRow>
 		<IonRow className='deck'>
 			{cardsToRender.slice(39, 52).map(card =>
 				<IonCol>
-					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62}></PlayingCard>
+					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} onClick={handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
 		</IonRow>

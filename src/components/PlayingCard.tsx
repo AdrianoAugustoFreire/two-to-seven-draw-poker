@@ -1,13 +1,15 @@
+import { useState } from 'react';
 import './PlayingCard.css';
 import Suits, { SuitNames } from './Suits';
 
 interface ContainerProps {
-	suit: Suits;
 	value: string;
-	open: boolean;
+	suit: Suits;
 	width: number;
 	height: number;
 	selected: boolean;
+	open: boolean;
+	onClick: () => void;
 }
 
 function getCardName(cardValue: string): string  {
@@ -43,12 +45,25 @@ function getCardName(cardValue: string): string  {
 	}
 }
 
-const PlayingCard: React.FC<ContainerProps> = ({ suit, value, open, width, height, selected }) => {
+const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, open }) => {
 
-  const imageName = open ? `assets/imgs/${suit}-${value}.png` : 'assets/imgs/card-back-blue.png';
-  const classes = selected ? 'playing-card selected-card' : 'playing-card';
+	const [cardIsSelected, setSelected] = useState<boolean>(false);
 
-  return <img className={classes} width={width} height={height} src={imageName} alt={`${getCardName(value)} of ${SuitNames[suit]}`} />;
+	const imageName = open ? `assets/imgs/${suit}-${value}.png` : 'assets/imgs/card-back-blue.png';
+	const classes = cardIsSelected ? 'playing-card selected-card' : 'playing-card';
+
+	const handleCardClick = () => {
+		setSelected(!cardIsSelected);
+	};
+
+	return <img
+		className={classes}
+		width={width}
+		height={height}
+		src={imageName}
+		alt={`${getCardName(value)} of ${SuitNames[suit]}`}
+		onClick={handleCardClick}
+	/>;
 };
 
 export default PlayingCard;

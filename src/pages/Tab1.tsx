@@ -7,6 +7,7 @@ import Suits from '../components/Suits';
 import './Tab1.css';
 import { useState } from 'react';
 import Deck from '../components/Deck';
+import Player from '../components/Player';
 
 const Tab1: React.FC = () => {
 
@@ -15,6 +16,10 @@ const Tab1: React.FC = () => {
   function handlePlayerCountChange(event: CustomEvent) {
     const newValue = event.detail.value as number;
     setPlayerCount(newValue);
+  }
+
+  function createPlayer(index: number, playerCards: PlayingCard[]): Player {
+    const player = new Player({ value: index, cards: cards })
   }
 
   return (
@@ -44,8 +49,15 @@ const Tab1: React.FC = () => {
             </IonCol>
             <IonCol>Players {plqyerCount}</IonCol>
           </IonRow>
+          {Array.from({ length: plqyerCount }, (_, index) => (
+            <IonRow key={index}>
+              <IonCol>
+                <Player value={index} selected={false} numberOfCardsToPlace={5} />
+              </IonCol>
+            </IonRow>
+          ))}
           <IonRow className='cards'>
-            <IonCol><PlayingCard suit={Suits.spades} value={'2'} open={true} width={88} height={124}></PlayingCard></IonCol>
+            <IonCol><PlayingCard suit={Suits.spades} value={'2'} open={true} width={88} height={124} selected={true}></PlayingCard></IonCol>
             <IonCol><PlayingCard suit={Suits.clubs} value={'3'} open={true} width={88} height={124}></PlayingCard></IonCol>
             <IonCol><PlayingCard suit={Suits.hearts} value={'5'} open={true} width={88} height={124}></PlayingCard></IonCol>
             <IonCol><PlayingCard suit={Suits.spades} value={'7'} open={true} width={88} height={124}></PlayingCard></IonCol>
@@ -58,8 +70,8 @@ const Tab1: React.FC = () => {
             <IonCol><PlayingCard suit={Suits.diamonds} value={'12'} open={true} width={88} height={124}></PlayingCard></IonCol>
             <IonCol><PlayingCard suit={Suits.spades} value={'7'} open={true} width={88} height={124}></PlayingCard></IonCol>
           </IonRow>
-          <Deck display={'full'}></Deck>
-          <Deck display={'shuffled'}></Deck>
+          {/* <Deck display={'full'}></Deck>
+          <Deck display={'shuffled'}></Deck> */}
         </IonGrid>
         {/* <IonItem>
           <Deck state={'shuffled'}></Deck>
