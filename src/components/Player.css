@@ -1,6 +1,7 @@
 .player {
-	font-size: large;
+	font-size: small;
 	background-color: black;
+	border-radius: 10px;
 	width: 88px;
 	width: 162px;
 }
@@ -8,4 +9,12 @@
 .selected-card {
 	border-radius: 10px;
 	border: 2px solid rgb(255, 0, 0);
+}
+
+ion-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
 }

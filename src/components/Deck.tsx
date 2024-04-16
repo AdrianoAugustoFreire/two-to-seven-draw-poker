@@ -47,7 +47,10 @@ export function getCardsOfFullDeck(): Card[] {
 	return deck;
 }
 
-
+export function getRandomUniqueCards(cards: Card[], count: number): Card[] {
+  const shuffledCards = shuffleArray(cards);
+  return shuffledCards.slice(0, count);
+}
 
 export function shuffleArray<T>(array: T[]): T[] {
   const shuffledArray = [...array];

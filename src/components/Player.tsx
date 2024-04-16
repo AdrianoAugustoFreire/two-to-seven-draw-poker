@@ -1,7 +1,7 @@
 import { IonCol, IonRow } from '@ionic/react';
 import './Player.css';
 import PlayingCard from './PlayingCard';
-import { getCardsOfFullDeck, shuffleArray } from './Deck';
+import { getCardsOfFullDeck, getRandomUniqueCards, shuffleArray } from './Deck';
 import Card from './Card';
 
 interface ContainerProps {
@@ -16,7 +16,7 @@ const Player: React.FC<ContainerProps> = ({ value, selected, numberOfCardsToPlac
 
 	const shuffledDeck = shuffleArray(getCardsOfFullDeck());
 
-	const playerCards = getRandomUniqueCards(shuffledDeck, numberOfCardsToPlace);
+	const playersCards = getRandomUniqueCards(shuffledDeck, numberOfCardsToPlace);
 
 	const handlePlayerClick = () => {
 
@@ -28,19 +28,14 @@ const Player: React.FC<ContainerProps> = ({ value, selected, numberOfCardsToPlac
 
 	return <IonRow>
 		<IonCol className={classes} onClick={handlePlayerClick}>
-				{value}
+			Player {value + 1}
 		</IonCol>
-		{playerCards.map(card =>
+		{playersCards.map(card =>
 			<IonCol>
-				<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} onClick={handleCardClick}></PlayingCard>
+				<PlayingCard suit={card.suit} value={card.value} open={true} width={66} height={93} selected={false} onClick={handleCardClick}></PlayingCard>
 			</IonCol>
 		)}
 	</IonRow>
 };
-
-function getRandomUniqueCards(cards: Card[], count: number): Card[] {
-  const shuffledCards = shuffleArray(cards);
-  return shuffledCards.slice(0, count);
-}
 
 export default Player;

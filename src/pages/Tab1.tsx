@@ -2,24 +2,27 @@ import { IonContent, IonHeader, IonPage, IonRange, IonTitle, IonToolbar } from '
 import { IonCol, IonGrid, IonRow } from '@ionic/react';
 
 import PlayingCard from '../components/PlayingCard';
-import Suits from '../components/Suits';
 
 import './Tab1.css';
 import { useState } from 'react';
-import Deck from '../components/Deck';
 import Player from '../components/Player';
+import { getCardsOfFullDeck, getRandomUniqueCards, shuffleArray } from '../components/Deck';
 
 const Tab1: React.FC = () => {
 
   const [plqyerCount, setPlayerCount] = useState<number>(3)
 
+  const shuffledDeck = shuffleArray(getCardsOfFullDeck());
+
+	const playerCards = getRandomUniqueCards(shuffledDeck, 5);
+
+	const handlePlayerCardClick = () => {
+
+	}
+
   function handlePlayerCountChange(event: CustomEvent) {
     const newValue = event.detail.value as number;
     setPlayerCount(newValue);
-  }
-
-  function createPlayer(index: number, playerCards: PlayingCard[]): Player {
-    const player = new Player({ value: index, cards: cards })
   }
 
   return (
@@ -56,26 +59,25 @@ const Tab1: React.FC = () => {
               </IonCol>
             </IonRow>
           ))}
-          <IonRow className='cards'>
-            <IonCol><PlayingCard suit={Suits.spades} value={'2'} open={true} width={88} height={124} selected={true}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.clubs} value={'3'} open={true} width={88} height={124}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.hearts} value={'5'} open={true} width={88} height={124}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.spades} value={'7'} open={true} width={88} height={124}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.diamonds} value={'4'} open={false} width={88} height={124}></PlayingCard></IonCol>
+          <IonRow>
+            <IonCol>Your Cards</IonCol>
           </IonRow>
           <IonRow className='cards'>
-            <IonCol><PlayingCard suit={Suits.spades} value={'12'} open={true} width={88} height={124}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.clubs} value={'3'} open={true} width={88} height={124}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.hearts} value={'9'} open={true} width={88} height={124}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.diamonds} value={'12'} open={true} width={88} height={124}></PlayingCard></IonCol>
-            <IonCol><PlayingCard suit={Suits.spades} value={'7'} open={true} width={88} height={124}></PlayingCard></IonCol>
+            {playerCards.map( card =>
+              <IonCol>
+                <PlayingCard
+                  suit={card.suit}
+                  value={card.value}
+                  open={true}
+                  width={88}
+                  height={124}
+                  selected={false}
+                  onClick={handlePlayerCardClick}>
+                </PlayingCard>
+              </IonCol>
+            )}
           </IonRow>
-          {/* <Deck display={'full'}></Deck>
-          <Deck display={'shuffled'}></Deck> */}
         </IonGrid>
-        {/* <IonItem>
-          <Deck state={'shuffled'}></Deck>
-        </IonItem> */}
       </IonContent>
     </IonPage>
   );
