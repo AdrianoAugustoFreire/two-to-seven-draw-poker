@@ -7,16 +7,12 @@ import Card from './Card';
 interface ContainerProps {
 	value: number;
 	selected: boolean;
-	numberOfCardsToPlace: number;
+	cards: Card[];
 }
 
-const Player: React.FC<ContainerProps> = ({ value, selected, numberOfCardsToPlace }) => {
+const Player: React.FC<ContainerProps> = ({ value, selected, cards }) => {
 
 	const classes = selected ? 'player selected-card' : 'player';
-
-	const shuffledDeck = shuffleArray(getCardsOfFullDeck());
-
-	const playersCards = getRandomUniqueCards(shuffledDeck, numberOfCardsToPlace);
 
 	const handlePlayerClick = () => {
 
@@ -30,7 +26,7 @@ const Player: React.FC<ContainerProps> = ({ value, selected, numberOfCardsToPlac
 		<IonCol className={classes} onClick={handlePlayerClick}>
 			Player {value + 1}
 		</IonCol>
-		{playersCards.map(card =>
+		{cards.map(card =>
 			<IonCol>
 				<PlayingCard suit={card.suit} value={card.value} open={true} width={66} height={93} selected={false} onClick={handleCardClick}></PlayingCard>
 			</IonCol>

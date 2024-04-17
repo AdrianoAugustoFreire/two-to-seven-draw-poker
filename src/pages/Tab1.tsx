@@ -6,7 +6,7 @@ import PlayingCard from '../components/PlayingCard';
 import './Tab1.css';
 import { useState } from 'react';
 import Player from '../components/Player';
-import { getCardsOfFullDeck, getRandomUniqueCards, shuffleArray } from '../components/Deck';
+import { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
 
 const Tab1: React.FC = () => {
 
@@ -14,7 +14,7 @@ const Tab1: React.FC = () => {
 
   const shuffledDeck = shuffleArray(getCardsOfFullDeck());
 
-	const playerCards = getRandomUniqueCards(shuffledDeck, 5);
+  const playerCards = shuffledDeck.splice(0, 5);
 
 	const handlePlayerCardClick = () => {
 
@@ -55,7 +55,7 @@ const Tab1: React.FC = () => {
           {Array.from({ length: plqyerCount }, (_, index) => (
             <IonRow key={index}>
               <IonCol>
-                <Player value={index} selected={false} numberOfCardsToPlace={5} />
+                <Player value={index} selected={false} cards={shuffledDeck.splice(0, 5)} />
               </IonCol>
             </IonRow>
           ))}
