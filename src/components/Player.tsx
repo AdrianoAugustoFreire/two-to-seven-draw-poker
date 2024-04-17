@@ -1,7 +1,6 @@
 import { IonCol, IonRow } from '@ionic/react';
 import './Player.css';
 import PlayingCard from './PlayingCard';
-import { getCardsOfFullDeck, getRandomUniqueCards, shuffleArray } from './Deck';
 import Card from './Card';
 
 interface ContainerProps {

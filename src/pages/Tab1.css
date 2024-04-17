@@ -6,6 +6,6 @@
 	min-height: 73;
 }
 
-#background-content {
+ion-grid {
 	background-color: green;
 }
