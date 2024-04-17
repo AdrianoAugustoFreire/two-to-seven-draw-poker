@@ -14,7 +14,7 @@ interface ContainerProps {
 
 function getCardName(cardValue: string): string  {
 	switch(cardValue) {
-		case '1':
+		case 'A':
 			return 'Ace';
 		case '2':
 			return 'Two';
@@ -32,13 +32,13 @@ function getCardName(cardValue: string): string  {
 			return 'Eight';
 		case '9':
 			return 'Nine';
-		case '10':
+		case 'T':
 			return 'Ten';
-		case '11':
+		case 'J':
 			return 'Jack';
-		case '12':
+		case 'Q':
 			return 'Queen';
-		case '13':
+		case 'K':
 			return 'King';
 		default:
 			return '?';
@@ -47,9 +47,10 @@ function getCardName(cardValue: string): string  {
 
 const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, open }) => {
 
+	const suitLetters = ['C', 'D', 'H', 'S'];
 	const [cardIsSelected, setSelected] = useState<boolean>(false);
 
-	const imageName = open ? `assets/imgs/${suit}-${value}.png` : 'assets/imgs/card-back-blue.png';
+	const imageName = open ? `assets/imgs/${value}${suitLetters[suit]}.svg` : 'assets/imgs/1B.svg';
 	const classes = cardIsSelected ? 'playing-card selected-card' : 'playing-card';
 
 	const handleCardClick = () => {

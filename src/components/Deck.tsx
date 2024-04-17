@@ -37,7 +37,7 @@ export function getShuffledDeck(): React.ReactNode {
 }
 
 export function getCardsOfFullDeck(): Card[] {
-  	const values: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13"];
+  	const values: string[] = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
 	const deck: Card[] = [];
 	for (var s = 0; s < 4; s++) {
 		for (const value of values) {
