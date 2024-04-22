@@ -1,10 +1,11 @@
-import { IonContent, IonHeader, IonPage, IonRange, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonPage, IonRange, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
 import { IonCol, IonGrid, IonRow } from '@ionic/react';
+import { OverlayEventDetail } from '@ionic/core/components';
 
 import PlayingCard from '../components/PlayingCard';
 
 import './Tab1.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Player from '../components/Player';
 import { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
 
@@ -17,13 +18,61 @@ const Tab1: React.FC = () => {
   const playerCards = shuffledDeck.splice(0, 5);
 
 	const handlePlayerCardClick = () => {
-
+    openModal();
 	}
 
   function handlePlayerCountChange(event: CustomEvent) {
     const newValue = event.detail.value as number;
     setPlayerCount(newValue);
   }
+
+  const ModalExample = ({
+    onDismiss,
+  }: {
+    onDismiss: (data?: string | null | undefined | number, role?: string) => void;
+  }) => {
+    const inputRef = useRef<HTMLIonInputElement>(null);
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonButton color="medium" onClick={() => onDismiss(null, 'cancel')}>
+                Cancel
+              </IonButton>
+            </IonButtons>
+            <IonTitle>Welcome</IonTitle>
+            <IonButtons slot="end">
+              <IonButton onClick={() => onDismiss(inputRef.current?.value, 'confirm')} strong={true}>
+                Confirm
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          <IonItem>
+            <IonInput ref={inputRef} labelPlacement="stacked" label="Enter your name" placeholder="Your name" />
+          </IonItem>
+        </IonContent>
+      </IonPage>
+    );
+  };
+
+  const [present, dismiss] = useIonModal(ModalExample, {
+    onDismiss: (data: string, role: string) => dismiss(data, role),
+  });
+  const [message, setMessage] = useState('This modal example uses the modalController to present and dismiss modals.');
+
+  function openModal() {
+    present({
+      onWillDismiss: (ev: CustomEvent<OverlayEventDetail>) => {
+        if (ev.detail.role === 'confirm') {
+          setMessage(`Hello, ${ev.detail.data}!`);
+        }
+      },
+    });
+  }
+
 
   return (
     <IonPage>

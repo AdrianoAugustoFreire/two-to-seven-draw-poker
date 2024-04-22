@@ -9,7 +9,7 @@ interface ContainerProps {
 	height: number;
 	selected: boolean;
 	open: boolean;
-	onClick: () => void;
+	onClick?: () => void;
 }
 
 function getCardName(cardValue: string): string  {
@@ -45,7 +45,7 @@ function getCardName(cardValue: string): string  {
 	}
 }
 
-const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, open }) => {
+const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, open, onClick }) => {
 
 	const suitLetters = ['C', 'D', 'H', 'S'];
 	const [cardIsSelected, setSelected] = useState<boolean>(false);
@@ -55,6 +55,9 @@ const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, ope
 
 	const handleCardClick = () => {
 		setSelected(!cardIsSelected);
+		if(onClick) {
+			onClick();
+		}
 	};
 
 	return <img
