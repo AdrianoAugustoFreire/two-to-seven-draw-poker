@@ -41,16 +41,16 @@ const Tab1: React.FC = () => {
                 Cancel
               </IonButton>
             </IonButtons>
-            <IonTitle>Welcome</IonTitle>
+            <IonTitle>Card Selector</IonTitle>
             <IonButtons slot="end">
               <IonButton onClick={() => onDismiss(inputRef.current?.value, 'confirm')} strong={true}>
                 Confirm
               </IonButton>
             </IonButtons>
           </IonToolbar>
-        </IonHeader>0
+        </IonHeader>
         <IonContent className="ion-padding">
-            <Deck display={'game'}></Deck>
+            <Deck display={'full'} cards={undefined}></Deck>
           <IonItem>
             {/* <IonInput ref={inputRef} labelPlacement="stacked" label="Enter your name" placeholder="Your name" /> */}
           </IonItem>
@@ -68,12 +68,11 @@ const Tab1: React.FC = () => {
     present({
       onWillDismiss: (ev: CustomEvent<OverlayEventDetail>) => {
         if (ev.detail.role === 'confirm') {
-          setMessage(`Hello, ${ev.detail.data}!`);
+          setMessage(`Card selected, ${ev.detail.data}!`);
         }
       },
     });
   }
-
 
   return (
     <IonPage>

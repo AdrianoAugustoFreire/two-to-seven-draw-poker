@@ -9,6 +9,7 @@ interface ContainerProps {
 	height: number;
 	selected: boolean;
 	open: boolean;
+	unavailable?: boolean;
 	onClick?: () => void;
 }
 
@@ -45,13 +46,17 @@ function getCardName(cardValue: string): string  {
 	}
 }
 
-const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, open, onClick }) => {
+const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, open, unavailable, onClick }) => {
 
 	const suitLetters = ['C', 'D', 'H', 'S'];
 	const [cardIsSelected, setSelected] = useState<boolean>(false);
 
 	const imageName = open ? `assets/imgs/${value}${suitLetters[suit]}.svg` : 'assets/imgs/1B.svg';
-	const classes = cardIsSelected ? 'playing-card selected-card' : 'playing-card';
+
+	let classes = cardIsSelected ? 'playing-card selected-card' : 'playing-card';
+	if (unavailable) {
+		classes += ' unavailable-overlay';
+	}
 
 	const handleCardClick = () => {
 		setSelected(!cardIsSelected);
