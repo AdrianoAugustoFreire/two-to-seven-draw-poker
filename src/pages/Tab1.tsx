@@ -7,7 +7,7 @@ import PlayingCard from '../components/PlayingCard';
 import './Tab1.css';
 import { useRef, useState } from 'react';
 import Player from '../components/Player';
-import { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
+import Deck, { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
 
 const Tab1: React.FC = () => {
 
@@ -26,7 +26,7 @@ const Tab1: React.FC = () => {
     setPlayerCount(newValue);
   }
 
-  const ModalExample = ({
+  const cardSelectorPopup = ({
     onDismiss,
   }: {
     onDismiss: (data?: string | null | undefined | number, role?: string) => void;
@@ -48,20 +48,21 @@ const Tab1: React.FC = () => {
               </IonButton>
             </IonButtons>
           </IonToolbar>
-        </IonHeader>
+        </IonHeader>0
         <IonContent className="ion-padding">
+            <Deck display={'game'}></Deck>
           <IonItem>
-            <IonInput ref={inputRef} labelPlacement="stacked" label="Enter your name" placeholder="Your name" />
+            {/* <IonInput ref={inputRef} labelPlacement="stacked" label="Enter your name" placeholder="Your name" /> */}
           </IonItem>
         </IonContent>
       </IonPage>
     );
   };
 
-  const [present, dismiss] = useIonModal(ModalExample, {
+  const [present, dismiss] = useIonModal(cardSelectorPopup, {
     onDismiss: (data: string, role: string) => dismiss(data, role),
   });
-  const [message, setMessage] = useState('This modal example uses the modalController to present and dismiss modals.');
+  const [message, setMessage] = useState('Select another card. Only cards not on hand can be selected.');
 
   function openModal() {
     present({

@@ -17,6 +17,8 @@ const Deck: React.FC<ContainerProps> = ({ display }) => {
 
 	if (display === 'full') {
 		return (<>{fullDeck()}</>)
+	} else if (display === 'game') {
+		return (<>{getShuffledDeck()}</>)
 	} else {
 		return (<>{getShuffledDeck()}</>)
 	}
