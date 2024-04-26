@@ -2,6 +2,9 @@ import { useState } from 'react';
 import './PlayingCard.css';
 import Suits, { SuitNames } from './Suits';
 
+import PokerEvaluator from 'poker-evaluator';
+
+
 interface ContainerProps {
 	value: string;
 	suit: Suits;
@@ -53,11 +56,8 @@ const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, ope
 
 	const imageName = open ? `assets/imgs/${value}${suitLetters[suit]}.svg` : 'assets/imgs/1B.svg';
 
-	let classes = cardIsSelected ? 'playing-card selected-card' : 'playing-card';
-	if (unavailable) {
-		classes += ' unavailable-overlay';
-	}
-
+	const classes = cardIsSelected ? 'playing-card selected-card' : 'playing-card';
+	const overlayClasses = unavailable ? "unavailable-overlay" : "";
 	const handleCardClick = () => {
 		setSelected(!cardIsSelected);
 		if(onClick) {
@@ -65,14 +65,19 @@ const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, ope
 		}
 	};
 
-	return <img
-		className={classes}
-		width={width}
-		height={height}
-		src={imageName}
-		alt={`${getCardName(value)} of ${SuitNames[suit]}`}
-		onClick={handleCardClick}
-	/>;
+	return <>
+		<img
+			className={classes}
+			width={width}
+			height={height}
+			src={imageName}
+			alt={`${getCardName(value)} of ${SuitNames[suit]}`}
+			onClick={handleCardClick}
+		/>
+		{
+		 <div className={overlayClasses}></div>}
+	</>
+	;
 };
 
 export default PlayingCard;

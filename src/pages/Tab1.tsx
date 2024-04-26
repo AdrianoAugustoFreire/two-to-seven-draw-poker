@@ -7,15 +7,16 @@ import PlayingCard from '../components/PlayingCard';
 import './Tab1.css';
 import { useRef, useState } from 'react';
 import Player from '../components/Player';
+import Card from '../components/Card';
 import Deck, { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
 
 const Tab1: React.FC = () => {
 
-  const [plqyerCount, setPlayerCount] = useState<number>(3)
+  const [plqyerCount, setPlayerCount] = useState<number>(3);
 
-  const shuffledDeck = shuffleArray(getCardsOfFullDeck());
+  const [shuffledDeck, setShuffledDeck] = useState<Card[]>(shuffleArray(getCardsOfFullDeck()));
 
-  const playerCards = shuffledDeck.splice(0, 5);
+  const [playerCards, setPlayerCards] = useState<Card[]>(shuffledDeck.splice(0, 5));
 
 	const handlePlayerCardClick = () => {
     openModal();
@@ -62,7 +63,7 @@ const Tab1: React.FC = () => {
   const [present, dismiss] = useIonModal(cardSelectorPopup, {
     onDismiss: (data: string, role: string) => dismiss(data, role),
   });
-  const [message, setMessage] = useState('Select another card. Only cards not on hand can be selected.');
+  const [message, setMessage] = useState('Select another card. Cards on hand cannot be selected.');
 
   function openModal() {
     present({
@@ -104,7 +105,7 @@ const Tab1: React.FC = () => {
           {Array.from({ length: plqyerCount }, (_, index) => (
             <IonRow key={index}>
               <IonCol>
-                <Player value={index} selected={false} cards={shuffledDeck.splice(0, 5)} />
+                <Player value={index} selected={false} cards={shuffledDeck.slice(index * 5, index * 5 + 5)} />
               </IonCol>
             </IonRow>
           ))}
