@@ -48,6 +48,7 @@ export function getShuffledDeck(): React.ReactNode {
 }
 
 export function getCardsOfFullDeck(): Card[] {
+	console.debug(`getCardsFullDeck()`);
   	const values: string[] = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
 	const deck: Card[] = [];
 	for (var s = 0; s < 4; s++) {
@@ -62,6 +63,7 @@ export function getCardsOfFullDeck(): Card[] {
 }
 
 export function shuffleArray<T>(array: T[]): T[] {
+  console.debug(`ShuffleArray array ${array.length}`);
   const shuffledArray = [...array];
   for (let i = shuffledArray.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

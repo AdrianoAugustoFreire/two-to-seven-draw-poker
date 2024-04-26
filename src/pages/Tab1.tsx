@@ -1,11 +1,11 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonPage, IonRange, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonItem, IonPage, IonRange, IonTitle, IonToolbar, useIonModal } from '@ionic/react';
 import { IonCol, IonGrid, IonRow } from '@ionic/react';
 import { OverlayEventDetail } from '@ionic/core/components';
 
 import PlayingCard from '../components/PlayingCard';
 
 import './Tab1.css';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Player from '../components/Player';
 import Card from '../components/Card';
 import Deck, { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
@@ -13,10 +13,14 @@ import Deck, { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
 const Tab1: React.FC = () => {
 
   const [plqyerCount, setPlayerCount] = useState<number>(3);
+  const [shuffledDeck, setShuffledDeck] = useState<Card[]>([]);
+  const [playerCards, setPlayerCards] = useState<Card[]>([]);
 
-  const [shuffledDeck, setShuffledDeck] = useState<Card[]>(shuffleArray(getCardsOfFullDeck()));
-
-  const [playerCards, setPlayerCards] = useState<Card[]>(shuffledDeck.splice(0, 5));
+  useEffect(() => {
+    const shuffledDeck = shuffleArray(getCardsOfFullDeck());
+    setPlayerCards(shuffledDeck.splice(0, 5));
+    setShuffledDeck(shuffledDeck);
+  }, []);
 
 	const handlePlayerCardClick = () => {
     openModal();
@@ -102,7 +106,7 @@ const Tab1: React.FC = () => {
             </IonCol>
             <IonCol>Players {plqyerCount}</IonCol>
           </IonRow>
-          {Array.from({ length: plqyerCount }, (_, index) => (
+          {Array.from({ length: plqyerCount }).map((_, index) => (
             <IonRow key={index}>
               <IonCol>
                 <Player value={index} selected={false} cards={shuffledDeck.slice(index * 5, index * 5 + 5)} />

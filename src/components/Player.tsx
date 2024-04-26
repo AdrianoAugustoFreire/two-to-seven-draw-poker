@@ -1,7 +1,7 @@
 import { IonCol, IonRow } from '@ionic/react';
-import './Player.css';
 import PlayingCard from './PlayingCard';
 import Card from './Card';
+import './Player.css';
 
 interface ContainerProps {
 	value: number;
