@@ -4,31 +4,40 @@ import DeckTypes from './DeckTypes';
 import PlayingCard from './PlayingCard';
 import { useState } from 'react';
 import Card from './Card';
+import { getSuitValue } from './Suits';
 
 interface ContainerProps {
 	display: string;
 	cards: Card[] | undefined;
+	numberOfPlayers: number | undefined;
 }
 export interface Deck {
 	cards: Card[];
 	deckType: DeckTypes;
 }
 
-const Deck: React.FC<ContainerProps> = ({ display, cards }) => {
+const Deck: React.FC<ContainerProps> = ({ display, cards, numberOfPlayers }) => {
 
 	if (display === 'full') {
 		return (<>{fullDeck()}</>)
-	} else if (display === 'game' && cards) {
-		return (<>{deckWithPreviouslyTakenCardsUnavailable( cards )}</>)
+	} else if (display === 'game' && cards && numberOfPlayers) {
+		return (<>{deckWithPreviouslyTakenCardsUnavailable( cards, numberOfPlayers )}</>)
 	} else {
 		return (<>{getShuffledDeck()}</>)
 	}
 };
 
-export function deckWithPreviouslyTakenCardsUnavailable( remainingCards: Card[] ): React.ReactNode {
+export function deckWithPreviouslyTakenCardsUnavailable( remainingCards: Card[], numberOfPlayers: number ): React.ReactNode {
+	console.debug(`deckWithPreviouslyTakenCardsUnavailable`);
 	const deck = getCardsOfFullDeck();
-	for ( const card of deck ) {
-		card.onHand = remainingCards.findIndex(c => c.value === card.value && c.suit === card.suit) !== -1;
+	for ( const card of remainingCards ) {
+		const fouindIndex = deck.findIndex(c => c.value === card.value && c.suit === card.suit);
+		if (fouindIndex !== -1 || fouindIndex <= (5 * numberOfPlayers)) {
+			console.debug(`card value ${card.value} suit ${getSuitValue(card.suit)} is on-hand!}`);
+			card.onHand = true;
+		} else {
+			console.debug(`card value ${card.value} suit ${getSuitValue(card.suit)} is OFF-hand!}`);
+		}
 	}
 	return renderDeck(deck);
 }
@@ -51,9 +60,11 @@ export function getCardsOfFullDeck(): Card[] {
 	console.debug(`getCardsFullDeck()`);
   	const values: string[] = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"];
 	const deck: Card[] = [];
+	var index = 0;
 	for (var s = 0; s < 4; s++) {
 		for (const value of values) {
 			deck.push({
+				id: index++,
 				suit: s,
 				value,
 				onHand: false });
@@ -83,28 +94,28 @@ function renderDeck(cardsToRender: Card[]): React.ReactNode {
 	return  <>
 		<IonRow className='deck'>
 			{cardsToRender.slice(0, 13).map( card =>
-				<IonCol>
+				<IonCol key={card.id}>
 					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} unavailable={card.onHand} onClick={card.onHand ? undefined: handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
 		</IonRow>
 		<IonRow className='deck'>
 			{cardsToRender.slice(13, 26).map(card =>
-				<IonCol>
+				<IonCol key={card.id}>
 					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} unavailable={card.onHand} onClick={card.onHand ? undefined: handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
 		</IonRow>
 		<IonRow className='deck'>
 			{cardsToRender.slice(26, 39).map(card =>
-				<IonCol>
+				<IonCol key={card.id}>
 					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} unavailable={card.onHand} onClick={card.onHand ? undefined: handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
 		</IonRow>
 		<IonRow className='deck'>
 			{cardsToRender.slice(39, 52).map(card =>
-				<IonCol>
+				<IonCol key={card.id}>
 					<PlayingCard suit={card.suit} value={card.value} open={true} width={44} height={62} selected={false} unavailable={card.onHand} onClick={card.onHand ? undefined: handleCardClick}></PlayingCard>
 				</IonCol>
 			)}
@@ -112,4 +123,4 @@ function renderDeck(cardsToRender: Card[]): React.ReactNode {
 	</>
 }
 
-export default Deck;
+export default Deck;``

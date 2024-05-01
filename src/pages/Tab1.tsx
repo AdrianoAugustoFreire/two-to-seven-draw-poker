@@ -12,11 +12,12 @@ import Deck, { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
 
 const Tab1: React.FC = () => {
 
-  const [plqyerCount, setPlayerCount] = useState<number>(3);
+  const [playerCount, setPlayerCount] = useState<number>(3);
   const [shuffledDeck, setShuffledDeck] = useState<Card[]>([]);
   const [playerCards, setPlayerCards] = useState<Card[]>([]);
 
   useEffect(() => {
+    console.debug(`Tab1 useEffect *******`);
     const shuffledDeck = shuffleArray(getCardsOfFullDeck());
     setPlayerCards(shuffledDeck.splice(0, 5));
     setShuffledDeck(shuffledDeck);
@@ -55,7 +56,7 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-            <Deck display={'full'} cards={undefined}></Deck>
+            <Deck display={'game'} cards={shuffledDeck} numberOfPlayers={playerCount}></Deck>
           <IonItem>
             {/* <IonInput ref={inputRef} labelPlacement="stacked" label="Enter your name" placeholder="Your name" /> */}
           </IonItem>
@@ -100,13 +101,13 @@ const Tab1: React.FC = () => {
                 max={7}
                 step={1}
                 snaps={true}
-                value={plqyerCount}
+                value={playerCount}
                 onIonChange={handlePlayerCountChange}>
              </IonRange>
             </IonCol>
-            <IonCol>Players {plqyerCount}</IonCol>
+            <IonCol>Players {playerCount}</IonCol>
           </IonRow>
-          {Array.from({ length: plqyerCount }).map((_, index) => (
+          {Array.from({ length: playerCount }).map((_, index) => (
             <IonRow key={index}>
               <IonCol>
                 <Player value={index} selected={false} cards={shuffledDeck.slice(index * 5, index * 5 + 5)} />
@@ -118,7 +119,7 @@ const Tab1: React.FC = () => {
           </IonRow>
           <IonRow className='cards'>
             {playerCards.map( card =>
-              <IonCol>
+              <IonCol key={card.id}>
                 <PlayingCard
                   suit={card.suit}
                   value={card.value}

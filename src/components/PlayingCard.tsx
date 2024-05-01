@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import './PlayingCard.css';
-import Suits, { SuitNames } from './Suits';
+import Suits from './Suits';
 
 import PokerEvaluator from 'poker-evaluator';
+import { getSuitValue } from './Suits';
 
 
 interface ContainerProps {
@@ -71,7 +72,7 @@ const PlayingCard: React.FC<ContainerProps> = ({ value, suit, width, height, ope
 			width={width}
 			height={height}
 			src={imageName}
-			alt={`${getCardName(value)} of ${SuitNames[suit]}`}
+			alt={`${getCardName(value)} of ${getSuitValue(suit)}`}
 			onClick={handleCardClick}
 		/>
 		{

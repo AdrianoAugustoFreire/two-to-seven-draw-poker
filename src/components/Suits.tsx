@@ -5,6 +5,8 @@ export enum Suits {
 	spades
 }
 
-export const SuitNames = [ 'Clubs', 'Diamonds', 'Hearts', 'Spades'];
+export function getSuitValue(value: Suits): string {
+    return Suits[value];
+}
 
 export default Suits;

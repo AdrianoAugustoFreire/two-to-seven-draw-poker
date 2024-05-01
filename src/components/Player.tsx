@@ -26,7 +26,7 @@ const Player: React.FC<ContainerProps> = ({ value, selected, cards }) => {
 			Player {value + 1}
 		</IonCol>
 		{cards.map(card =>
-			<IonCol>
+			<IonCol key={card.id}>
 				<PlayingCard suit={card.suit} value={card.value} open={true} width={66} height={93} selected={false} onClick={handleCardClick}></PlayingCard>
 			</IonCol>
 		)}
