@@ -7,21 +7,39 @@ import PlayingCard from '../components/PlayingCard';
 import './Tab1.css';
 import { useRef, useState, useEffect } from 'react';
 import Player from '../components/Player';
-import Card from '../components/Card';
+import Card, { cardToString } from '../components/Card';
 import Deck, { getCardsOfFullDeck, shuffleArray } from '../components/Deck';
 
 const Tab1: React.FC = () => {
 
   const [playerCount, setPlayerCount] = useState<number>(3);
-  const [shuffledDeck, setShuffledDeck] = useState<Card[]>([]);
+  const [gameDeck, setGameDeck] = useState<Card[]>([]);
   const [playerCards, setPlayerCards] = useState<Card[]>([]);
 
   useEffect(() => {
     console.debug(`Tab1 useEffect *******`);
     const shuffledDeck = shuffleArray(getCardsOfFullDeck());
-    setPlayerCards(shuffledDeck.splice(0, 5));
-    setShuffledDeck(shuffledDeck);
+    drawCardsToPlayer(shuffledDeck, -1, 5);
+    setGameDeck(shuffledDeck);
   }, []);
+
+  function drawCardsToPlayer(deck: Card[], playerIndex: number, numberOfCardsToDraw: number): Card[] {
+    let drawnCards = 0;
+    var playerCards: Card[] = [];
+    for (const card of deck) {
+      if (typeof card.playerIndex === undefined) {
+        card.playerIndex = playerIndex;
+        playerCards.push(card);
+        console.debug(`Player ${playerIndex} drawn card ${cardToString(card)}`);
+        drawnCards++;
+        if (drawnCards === numberOfCardsToDraw) {
+          break;
+        }
+      }
+    }
+    console.debug(`Drawn ${drawnCards} from deck to player ${playerIndex}`);
+    return playerCards;
+  }
 
 	const handlePlayerCardClick = () => {
     openModal();
@@ -56,7 +74,7 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-            <Deck display={'game'} cards={shuffledDeck} numberOfPlayers={playerCount}></Deck>
+            <Deck display={'game'} cards={gameDeck} numberOfPlayers={playerCount}></Deck>
           <IonItem>
             {/* <IonInput ref={inputRef} labelPlacement="stacked" label="Enter your name" placeholder="Your name" /> */}
           </IonItem>
@@ -110,7 +128,7 @@ const Tab1: React.FC = () => {
           {Array.from({ length: playerCount }).map((_, index) => (
             <IonRow key={index}>
               <IonCol>
-                <Player value={index} selected={false} cards={shuffledDeck.slice(index * 5, index * 5 + 5)} />
+                <Player value={index} selected={false} cards={gameDeck.slice(index * 5, index * 5 + 5)} />
               </IonCol>
             </IonRow>
           ))}
